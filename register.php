@@ -3,7 +3,7 @@
     include ("includes/classes/Account.php");
     include ("includes/classes/Constants.php");
 
-    $account = new Account($connection);
+    $account = new Account($con);
 
     include("includes/handlers/register-handler.php");
     include("includes/handlers/login-handler.php");
@@ -25,12 +25,13 @@
 		<form id="loginForm" action="register.php" method="POST">
 			<h2>Login To Your Account</h2>
 			<p>
-				<label for="LoqinUsername">Username</label>
-				<input id="LoqinUsername" name="LoqinUsername" type="text" placeholder="e.g bartSimpson"  required>
+                <?php echo $account->getError(Constants::$loginFailed); ?>
+				<label for="loginUsername">Username</label>
+				<input id="loginUsername" name="loginUsername" type="text" placeholder="e.g bartSimpson"  required>
 			</p>
 			<p>
-				<label for="LoginPassword">Password</label>
-				<input id="LoginPassword" name="LoginPassword" type="password" placeholder="Your password"  required>
+				<label for="loginPassword">Password</label>
+				<input id="loginPassword" name="loginPassword" type="password" placeholder="Your password"  required>
 			</p>
 			
 			<button type="submit" name="LoginButton">LOG IN</button>
@@ -39,9 +40,9 @@
 
 		<form id="registerForm" action="register.php" method="POST">
 			<h2>Create your free account</h2>
-
 			<p>
                 <?php echo $account->getError(Constants::$userNameCharacters); ?>
+                <?php echo $account->getError(Constants::$usernameTaken); ?>
 				<label for="username">Username</label>
 				<input id="username" name="username" type="text" placeholder="e.g bartSimpson" value="<?php getInputValue('username') ?>" required>
 			</p>
@@ -62,6 +63,7 @@
 			<p>
                 <?php echo $account->getError(Constants::$emailsDoNotMatch); ?>
                 <?php echo $account->getError(Constants::$emailInvalid); ?>
+                <?php echo $account->getError(Constants::$emailTaken); ?>
 				<label for="email">Email</label>
 				<input id="email" name="email" type="email" placeholder="e.g bart@gmail.com" value="<?php getInputValue('email') ?>" required>
 			</p>
